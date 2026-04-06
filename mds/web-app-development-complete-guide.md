@@ -1,10 +1,10 @@
 ---
-title: Webアプリケーション開発完全ガイド
-description: Bookshelf4MDのコード完全解説
+title: Webアプリケーション開発ガイド
+description: Bookshelf4MDのコード解説を中心に、webアプリケーションの作り方を学べる
 cover: /media_mds/media_web-app-development-complete-guide/image.png
 ---
 
-# Webアプリケーション開発完全ガイド
+# Webアプリケーション開発ガイド
 
 Webアプリケーションをゼロから作るために必要な知識を学びます。
 

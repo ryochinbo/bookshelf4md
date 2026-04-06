@@ -1,6 +1,6 @@
 ---
 title: サンプルブック
-description: これはBookshelf4MDのサンプルブックです。YAMLフロントマター、ページ分割、コードブロック、メディア埋め込みなどの機能をデモンストレーションします。
+description: これはBookshelf4MDのサンプルブックです。
 cover:  /media_mds/media_sample-book/image.png
 ---
 
