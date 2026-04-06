@@ -1,0 +1,8 @@
+# メディアファイル用ディレクトリ
+
+画像や動画ファイルはこのディレクトリに配置してください。
+
+Markdown内からは以下のように参照できます：
+
+- 画像: `![alt](/media/filename.jpg)`
+- 動画: `<video src="/media/filename.mp4" controls></video>`

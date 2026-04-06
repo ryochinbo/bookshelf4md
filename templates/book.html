@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - Bookshelf4MD{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* コードブロック - 背景色を統一 */
+
+    /* コードブロックwrapper */
+    .code-block-wrapper {
+        margin: 24px 0;
+        border: 1px solid rgba(38, 37, 30, 0.1);
+        overflow-x: auto;
+    }
+
+    /* ヘッダー */
+    .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        background: #e6e5e0;
+        border-bottom: 1px solid rgba(38, 37, 30, 0.1);
+    }
+
+    .code-language {
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        color: rgba(38, 37, 30, 0.35);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .copy-button {
+        background: transparent;
+        border: none;
+        color: rgba(38, 37, 30, 0.55);
+        font-size: 11px;
+        cursor: pointer;
+        padding: 4px 8px;
+        transition: all 0.15s;
+    }
+
+    .copy-button:hover {
+        background: #e1e0db;
+        color: #26251e;
+    }
+
+    .copy-button.copied {
+        color: #1f8a65;
+    }
+
+    /* コード部分 - 背景色を統一 */
+    .code-block-wrapper .code-highlight {
+        background: #1a1915 !important;
+        border-radius: 0 !important;
+    }
+
+    .code-block-wrapper .code-highlight pre {
+        background: #1a1915 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 16px !important;
+    }
+
+    .code-block-wrapper .code-highlight code {
+        background: transparent !important;
+        border-radius: 0 !important;
+    }
+
+    /* GitHub Dark風シンタックスハイライト */
+    .code-highlight .k { color: #ff7b72 } /* Keyword */
+    .code-highlight .kd { color: #ff7b72 } /* Keyword.Declaration */
+    .code-highlight .kn { color: #ff7b72 } /* Keyword.Namespace */
+    .code-highlight .kp { color: #79c0ff } /* Keyword.Pseudo */
+    .code-highlight .kr { color: #ff7b72 } /* Keyword.Reserved */
+    .code-highlight .kt { color: #ff7b72 } /* Keyword.Type */
+    .code-highlight .m { color: #a5d6ff } /* Literal.Number */
+    .code-highlight .mf { color: #a5d6ff } /* Literal.Number.Float */
+    .code-highlight .mh { color: #a5d6ff } /* Literal.Number.Hex */
+    .code-highlight .mi { color: #a5d6ff } /* Literal.Number.Integer */
+    .code-highlight .mo { color: #a5d6ff } /* Literal.Number.Oct */
+    .code-highlight .s { color: #a5d6ff } /* Literal.String */
+    .code-highlight .sa { color: #79c0ff } /* Literal.String.Affix */
+    .code-highlight .sb { color: #a5d6ff } /* Literal.String.Backtick */
+    .code-highlight .sc { color: #a5d6ff } /* Literal.String.Char */
+    .code-highlight .dl { color: #79c0ff } /* Literal.String.Delimiter */
+    .code-highlight .sd { color: #a5d6ff } /* Literal.String.Doc */
+    .code-highlight .s2 { color: #a5d6ff } /* Literal.String.Double */
+    .code-highlight .se { color: #79c0ff } /* Literal.String.Escape */
+    .code-highlight .sh { color: #79c0ff } /* Literal.String.Heredoc */
+    .code-highlight .si { color: #a5d6ff } /* Literal.String.Interpol */
+    .code-highlight .sx { color: #a5d6ff } /* Literal.String.Other */
+    .code-highlight .sr { color: #79c0ff } /* Literal.String.Regex */
+    .code-highlight .s1 { color: #a5d6ff } /* Literal.String.Single */
+    .code-highlight .ss { color: #a5d6ff } /* Literal.String.Symbol */
+    .code-highlight .c { color: #8b949e; font-style: italic } /* Comment */
+    .code-highlight .cm { color: #8b949e; font-style: italic } /* Comment.Multiline */
+    .code-highlight .cp { color: #8b949e; font-weight: bold } /* Comment.Preproc */
+    .code-highlight .c1 { color: #8b949e; font-style: italic } /* Comment.Single */
+    .code-highlight .cs { color: #8b949e; font-weight: bold } /* Comment.Special */
+    .code-highlight .kc { color: #79c0ff } /* Keyword.Constant */
+    .code-highlight .nc { color: #f0883e; font-weight: bold } /* Name.Class */
+    .code-highlight .nf { color: #d2a8ff; font-weight: bold } /* Name.Function */
+    .code-highlight .nn { color: #ff7b72 } /* Name.Namespace */
+    .code-highlight .nt { color: #7ee787 } /* Name.Tag */
+    .code-highlight .nv { color: #79c0ff } /* Name.Variable */
+    .code-highlight .ow { color: #ff7b72; font-weight: bold } /* Operator.Word */
+    .code-highlight .o { color: #ff7b72 } /* Operator */
+    .code-highlight .p { color: #e6edf3 } /* Punctuation */
+    .code-highlight .n { color: #e6edf3 } /* Name */
+    .code-highlight .nb { color: #e6edf3 } /* Name.Builtin */
+    .code-highlight .na { color: #e6edf3 } /* Name.Attribute */
+    .code-highlight .nd { color: #d2a8ff } /* Name.Decorator */
+    .code-highlight .ni { color: #ffa657 } /* Name.Entity */
+</style>
+{% endblock %}
+
+{% block content %}
+<article class="book-page">
+    {% include 'components/sidebar_toc.html' %}
+
+    <div class="book-main">
+        <div class="book-header-bar">
+            <a href="{{ url_for('index') }}" class="back-link">
+                <span>←</span>
+                <span>本棚に戻る</span>
+            </a>
+            {% include 'components/progress_bar.html' %}
+        </div>
+
+        <div class="book-content">
+            <h1 class="page-title">{{ current_page.title }}</h1>
+            <div class="page-body">
+                {{ html_content|safe }}
+            </div>
+        </div>
+
+        <nav class="page-navigation">
+            {% if current_page_num > 1 %}
+            <a href="{{ url_for('view_book', filename=filename, page_num=current_page_num-1) }}"
+               class="nav-button nav-prev">
+                <span class="nav-icon">←</span>
+                <span class="nav-text">前のページ</span>
+            </a>
+            {% else %}
+            <div class="nav-spacer"></div>
+            {% endif %}
+
+            <div class="page-indicator">
+                {% for p in range(1, total_pages + 1) %}
+                <a href="{{ url_for('view_book', filename=filename, page_num=p) }}"
+                   class="page-dot {% if p == current_page_num %}active{% endif %}"
+                   title="{{ p }}ページへ">
+                    <span></span>
+                </a>
+                {% endfor %}
+            </div>
+
+            {% if current_page_num < total_pages %}
+            <a href="{{ url_for('view_book', filename=filename, page_num=current_page_num+1) }}"
+               class="nav-button nav-next">
+                <span class="nav-text">次のページ</span>
+                <span class="nav-icon">→</span>
+            </a>
+            {% else %}
+            <div class="nav-spacer"></div>
+            {% endif %}
+        </nav>
+    </div>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 現在のページ番号をグローバル変数に保存
+    window.currentPageNum = {{ current_page_num }};
+    window.totalPages = {{ total_pages }};
+    window.filename = '{{ filename }}';
+</script>
+{% endblock %}

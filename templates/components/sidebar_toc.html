@@ -1,0 +1,28 @@
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">目次</h3>
+            <button class="sidebar-close" id="sidebarClose" aria-label="目次を閉じる">
+                <span>✕</span>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="toc-list">
+                {% for item in toc %}
+                <li class="toc-item">
+                    <a href="{{ url_for('view_book', filename=filename, page_num=item.page + 1) }}"
+                       class="toc-link {% if item.page + 1 == current_page_num %}active{% endif %}">
+                        <span class="toc-title">{{ item.title }}</span>
+                        <span class="toc-page">{{ item.page + 1 }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</aside>
+
+<!-- モバイル用トグルボタン -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目次を開く">
+    <span class="toggle-icon">☰</span>
+</button>

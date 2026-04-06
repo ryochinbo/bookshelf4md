@@ -1,0 +1,9 @@
+<div class="progress-container">
+    <div class="progress-info">
+        <span class="progress-label">{{ current_page_num }} / {{ total_pages }}</span>
+        <span class="progress-percent">{{ "%.1f"|format(progress) }}%</span>
+    </div>
+    <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width: {{ progress }}%"></div>
+    </div>
+</div>

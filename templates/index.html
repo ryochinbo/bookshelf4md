@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}本棚 - Bookshelf4MD{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-inner">
+        <h1 class="hero-title">Markdown Bookshelf</h1>
+    </div>
+</section>
+
+<section class="books-section">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-label">Library</div>
+            <h2 class="section-title">ドキュメント</h2>
+            <div class="view-toggle">
+                <button class="view-toggle-btn {% if view_mode == 'shelf' %}active{% endif %}"
+                        data-mode="shelf"
+                        aria-label="本棚表示">
+                    <span class="view-icon">📚</span>
+                </button>
+                <button class="view-toggle-btn {% if view_mode == 'list' %}active{% endif %}"
+                        data-mode="list"
+                        aria-label="リスト表示">
+                    <span class="view-icon">📋</span>
+                </button>
+            </div>
+        </div>
+
+        {% if books %}
+        <div class="books-container {{ view_mode }}-mode">
+            {% for book in books %}
+            <article class="book-card" data-filename="{{ book.filename }}">
+                <div class="book-card-inner">
+                    {% if book.cover %}
+                    <div class="book-cover">
+                        <img src="{{ book.cover }}" alt="{{ book.title }}" loading="lazy">
+                    </div>
+                    {% endif %}
+                    <div class="book-content">
+                        <div class="book-badge">
+                            <span class="book-badge-icon">📖</span>
+                            <span>{{ book.page_count }} ページ</span>
+                        </div>
+                        <h3 class="book-title">{{ book.title }}</h3>
+                        {% if book.description %}
+                        <p class="book-description">{{ book.description }}</p>
+                        {% endif %}
+                        <a href="{{ url_for('view_book', filename=book.filename) }}"
+                           class="book-link">
+                           読む →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <h3>ドキュメントがありません</h3>
+            <p>mds/ ディレクトリに .md ファイルを配置してください</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
